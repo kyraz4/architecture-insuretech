@@ -1,0 +1,66 @@
+"""
+Клиентский сервис — GraphQL API.
+Эквивалент REST API v1 (Swagger 2.0) сервиса client-info.
+"""
+
+# ===== Типы данных =====
+
+"""
+Клиент — карточка клиента.
+В REST соответствовал ресурсу GET /clients/{id}.
+"""
+type Client {
+  id: ID!
+  name: String
+  age: Int
+  documents: [Document!]!
+  relatives: [Relative!]!
+}
+
+"""
+Документ клиента.
+В REST соответствовал ресурсу GET /clients/{id}/documents.
+"""
+type Document {
+  id: ID!
+  type: String
+  number: String
+  issueDate: String
+  expiryDate: String
+}
+
+"""
+Родственник клиента.
+В REST соответствовал ресурсу GET /clients/{id}/relatives.
+"""
+type Relative {
+  id: ID!
+  relationType: String
+  name: String
+  age: Int
+}
+
+# ===== Запросы =====
+
+type Query {
+  """
+  Получить информацию о клиенте по ID.
+  Аналог GET /clients/{id}.
+  Возвращает null, если клиент не найден.
+  """
+  client(id: ID!): Client
+
+  """
+  Список документов клиента по ID.
+  Аналог GET /clients/{id}/documents.
+  Возвращает пустой список, если документов нет.
+  """
+  clientDocuments(id: ID!): [Document!]!
+
+  """
+  Информация о родственниках клиента по ID.
+  Аналог GET /clients/{id}/relatives.
+  Возвращает пустой список, если родственников нет.
+  """
+  clientRelatives(id: ID!): [Relative!]!
+}
